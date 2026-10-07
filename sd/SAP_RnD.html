@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SAP Learning Guide: From ERP Basics to Interview-Ready</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f8fb; --panel:#ffffff; --ink:#18212f; --muted:#546071; --line:#d8dfe9;
+  --accent:#0a5fc2; --accent-soft:#e4eefb; --warn:#8a5a00; --warn-soft:#fff3d6; --ok:#17603a; --ok-soft:#e2f4ea;
+  --code:#eef2f7;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1520; --panel:#161e2c; --ink:#e6ebf3; --muted:#9aa7bb; --line:#2a3548;
+    --accent:#6fa8ff; --accent-soft:#1a2a45; --warn:#f2c46b; --warn-soft:#33290f; --ok:#6fd49b; --ok-soft:#14301f; --code:#1c2637;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1520; --panel:#161e2c; --ink:#e6ebf3; --muted:#9aa7bb; --line:#2a3548;
+  --accent:#6fa8ff; --accent-soft:#1a2a45; --warn:#f2c46b; --warn-soft:#33290f; --ok:#6fd49b; --ok-soft:#14301f; --code:#1c2637;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 16px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.65}
+a{color:var(--accent);text-underline-offset:2px;overflow-wrap:anywhere}
+a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:0;max-width:1240px;margin:0 auto}
+nav.toc{position:sticky;top:0;align-self:start;height:100vh;overflow:auto;padding:28px 18px 28px 24px;border-right:1px solid var(--line);font-family:var(--sans);font-size:14px}
+nav.toc strong{display:block;font-size:15px;margin-bottom:10px}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li{margin:0}
+nav.toc a{display:block;padding:5px 8px;border-radius:6px;color:var(--ink);text-decoration:none;line-height:1.35}
+nav.toc a:hover{background:var(--accent-soft)}
+nav.toc .grp{margin:14px 8px 4px;color:var(--muted);font-size:12.5px;font-weight:600}
+main{padding:36px clamp(18px,4vw,56px) 80px;min-width:0}
+.cover{border-bottom:2px solid var(--ink);padding-bottom:28px;margin-bottom:28px}
+.cover h1{font-family:var(--sans);font-weight:600;font-size:clamp(30px,5vw,46px);line-height:1.1;margin:0 0 14px;letter-spacing:-.01em}
+.cover p{max-width:66ch;margin:.4em 0;color:var(--muted);font-size:18px}
+h2{font-family:var(--sans);font-weight:600;font-size:clamp(24px,3.2vw,32px);line-height:1.2;margin:56px 0 12px;padding-top:20px;border-top:1px solid var(--line)}
+h3{font-family:var(--sans);font-weight:600;font-size:20px;margin:30px 0 8px;line-height:1.3}
+h4{font-family:var(--sans);font-weight:600;font-size:16px;margin:20px 0 6px}
+p,li{max-width:74ch}
+ul,ol{padding-left:1.25em}
+li{margin:.25em 0}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14.5px;line-height:1.45}
+.tw{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+th{background:var(--accent-soft);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:500}
+code,.tc{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.86em;background:var(--code);padding:1px 5px;border-radius:4px}
+.note,.warn,.ok{font-family:var(--sans);font-size:15px;line-height:1.55;padding:12px 16px;border-radius:8px;margin:16px 0;border-left:4px solid}
+.note{background:var(--accent-soft);border-color:var(--accent)}
+.warn{background:var(--warn-soft);border-color:var(--warn)}
+.ok{background:var(--ok-soft);border-color:var(--ok)}
+.note p,.warn p,.ok p{margin:.3em 0}
+.topic{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:6px 22px 18px;margin:22px 0}
+.topic h3{margin-top:18px}
+.tag{display:inline-block;font-family:var(--sans);font-size:12.5px;font-weight:600;padding:2px 9px;border-radius:99px;margin-right:6px;border:1px solid var(--line);color:var(--muted);vertical-align:middle}
+.tag.free{color:var(--ok);border-color:var(--ok)}
+.tag.paid{color:var(--warn);border-color:var(--warn)}
+.tag.trial{color:var(--accent);border-color:var(--accent)}
+ul.res{list-style:none;padding:0}
+ul.res li{padding:8px 0;border-bottom:1px dashed var(--line);font-family:var(--sans);font-size:15px}
+ul.res li:last-child{border-bottom:0}
+details{border:1px solid var(--line);border-radius:8px;margin:10px 0;background:var(--panel)}
+summary{cursor:pointer;padding:10px 14px;font-family:var(--sans);font-weight:500;font-size:15.5px}
+details[open] summary{border-bottom:1px solid var(--line)}
+details .in{padding:6px 16px 12px}
+.ex{border:1px solid var(--accent);border-radius:8px;padding:4px 16px 10px;margin:16px 0;background:var(--accent-soft)}
+.ex h4{margin-top:10px;color:var(--accent)}
+.ex ol{margin:.3em 0}
+.theme-btn{position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));z-index:5;font-family:var(--sans);font-size:13px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer}
+@media (max-width:900px){
+  .layout{display:block}
+  nav.toc{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:16px 18px}
+  nav.toc ol{columns:2}
+  nav.toc .grp{break-after:avoid}
+}
+@media (max-width:520px){ nav.toc ol{columns:1} body{font-size:16.5px} }
+@media print{
+  nav.toc,.theme-btn{display:none}
+  .layout{display:block}
+  body{background:#fff;color:#000;font-size:11pt}
+  h2{break-before:page;border-top:0}
+  .topic,.ex,details,.tw{break-inside:avoid}
+  details{display:block} details>summary{list-style:none}
+  a{color:#000}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="Contents">
+<strong>SAP Learning Guide</strong>
+<ol>
+<li class="grp">Start here</li>
+<li><a href="#intro">1. Introduction and how to use this guide</a></li>
+<li><a href="#plan">2. Study plan and learning path</a></li>
+<li><a href="#tools">3. Legitimate software and practice systems</a></li>
+<li class="grp">Core topics</li>
+<li><a href="#erp">4. ERP fundamentals</a></li>
+<li><a href="#sap">5. SAP: history, versions, architecture</a></li>
+<li><a href="#landscape">6. System landscape and transports</a></li>
+<li><a href="#products">7. SAP product portfolio</a></li>
+<li><a href="#projects">8. Projects, methodology, roles</a></li>
+<li><a href="#data">9. Data in SAP and navigation</a></li>
+<li><a href="#mm">10. SAP MM in depth</a></li>
+<li><a href="#fico">11. SAP FICO</a></li>
+<li><a href="#sd">12. SAP SD</a></li>
+<li><a href="#ppqm">13. SAP PP and QM</a></li>
+<li><a href="#abap">14. SAP ABAP</a></li>
+<li><a href="#basis">15. SAP Basis</a></li>
+<li><a href="#fiori">16. Fiori, S/4HANA and BTP</a></li>
+<li class="grp">Apply and prove it</li>
+<li><a href="#e2e">17. End-to-end integration scenarios</a></li>
+<li><a href="#capstone">18. Capstone projects</a></li>
+<li><a href="#cert">19. Certification and career</a></li>
+<li><a href="#interview">20. Interview question bank</a></li>
+<li class="grp">Reference</li>
+<li><a href="#index">21. Master link index</a></li>
+<li><a href="#verify">22. Verification notes</a></li>
+</ol>
+</nav>
+<main>
+
+<header class="cover">
+<h1>SAP Learning Guide: From ERP Basics to Interview-Ready</h1>
+<p>A self-study reference built around your “SAP: An Introduction” slides (ERP, SAP history, landscapes, products, project types, roles, master and transactional data, modules, and SAP MM), extended into FICO, SD, PP/QM, ABAP, Basis, Fiori, S/4HANA and BTP.</p>
+<p>Every topic has a summary, key concepts, verified links, YouTube search links, a hands-on exercise and interview questions. Every practice system listed is a legitimate, SAP-sanctioned route.</p>
+</header>
+
+<section id="intro">
+<h2>1. Introduction and how to use this guide</h2>
+<p>SAP is the largest ERP software provider. Its software runs finance, procurement, sales, production and HR for a large share of the world’s big companies, which is why SAP skills remain in demand. Your slides cover the vocabulary every beginner needs. This guide takes each slide topic and adds what the slides leave out: where to practise, what to build, and how it is tested in interviews.</p>
+
+<h3>What each topic section contains</h3>
+<ul>
+<li><strong>Summary and key concepts</strong>, written for a beginner.</li>
+<li><strong>Resources</strong>, tagged <span class="tag free">Free</span>, <span class="tag trial">Trial</span> or <span class="tag paid">Paid</span>.</li>
+<li><strong>YouTube</strong>: search links plus selection tips (see the note below).</li>
+<li><strong>Hands-on exercise</strong>, with the system you need.</li>
+<li><strong>Interview questions</strong> for that topic. The full bank with answers is in section 20.</li>
+</ul>
+
+<div class="note">
+<p><strong>About the YouTube links.</strong> I could not open and watch individual videos, so I have not listed specific video addresses. A wrong or dead video link is worse than none. Instead, each topic has a YouTube search link that works today, and the official SAP channel is linked below. When choosing a video, prefer: (1) SAP’s own channels, (2) uploads from the last two to three years, since S/4HANA changed many screens, (3) videos that show a real system rather than slides only.</p>
+<p>Official channel: <a href="https://www.youtube.com/@SAP">SAP on YouTube</a>. SAP Learning also publishes bite-sized videos inside <a href="https://learning.sap.com">learning.sap.com</a>.</p>
+</div>
+
+<h3>Corrections to the source slides</h3>
+<p>While building this guide I noticed a few details in the deck worth fixing before you teach or study from it.</p>
+<div class="tw"><table>
+<thead><tr><th>Slide says</th><th>Better version</th></tr></thead>
+<tbody>
+<tr><td>“Waldorf, Baden-Wuttenberg”</td><td>Walldorf, Baden-Württemberg, Germany.</td></tr>
+<tr><td>Founders listed as “Dietmar, Klaus Tschira, Hector, Plattner, Wellenreuther”</td><td>Dietmar Hopp, Klaus Tschira, Hans-Werner Hector, Hasso Plattner and Claus Wellenreuther, five former IBM engineers (1972).</td></tr>
+<tr><td>R/1, R/2, R/3 described strictly as 1-, 2-, 3-tier</td><td>Good teaching model. R/3 is the well-established client/server (three-tier) release. Treat the exact tier layout of R/1 and R/2 as simplified history, not a precise specification.</td></tr>
+<tr><td>SAP stands for “System Applications and Products in Data Processing”</td><td>“Systems, Applications and Products in Data Processing.” Today the company name is simply SAP.</td></tr>
+<tr><td>Product list: S/4HANA, CRM, PLM, SCM, SRM</td><td>Still valid as concepts, but the current portfolio is cloud-centred (S/4HANA, Ariba, SuccessFactors, Concur, Analytics Cloud, BTP and others). See section 7.</td></tr>
+<tr><td>“PPQM” module</td><td>PP (Production Planning) and QM (Quality Management) are two modules, usually taught together.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="plan">
+<h2>2. Study plan and learning path</h2>
+<p>A realistic plan for someone with a full-time job is 8 to 10 hours a week. The order below follows dependencies: you cannot understand procurement before you understand master data, and you cannot do hands-on work before you have a practice system.</p>
+<div class="tw"><table>
+<thead><tr><th>Weeks</th><th>Focus</th><th>Guide sections</th><th>Outcome</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Concepts and a practice system</td><td>3, 4, 5</td><td>You can explain ERP and SAP versions, and you can log in to a system.</td></tr>
+<tr><td>2</td><td>Architecture and landscape</td><td>5, 6, 7</td><td>You can draw DEV/QAS/PRD and explain transports.</td></tr>
+<tr><td>3</td><td>Projects, roles, data</td><td>8, 9</td><td>You can explain Greenfield vs Brownfield and master vs transactional data.</td></tr>
+<tr><td>4 to 7</td><td>Your first module in depth (MM suggested)</td><td>10, 17</td><td>You can run procure-to-pay and explain every posting.</td></tr>
+<tr><td>8 to 10</td><td>A second module, plus overview of the rest</td><td>11 to 15</td><td>You can describe how modules integrate.</td></tr>
+<tr><td>11</td><td>Fiori, S/4HANA differences, BTP</td><td>16</td><td>You can discuss the modern SAP stack.</td></tr>
+<tr><td>12</td><td>Capstone, mock interviews, certification plan</td><td>18, 19, 20</td><td>A portfolio piece and an exam plan.</td></tr>
+</tbody></table></div>
+<div class="note"><p><strong>Choosing a specialization.</strong> Pick one functional module (MM, FICO, SD or PP) or one technical track (ABAP or Basis) for depth. Employers hire specialists, but a specialist who can explain neighbouring modules is far more valuable.</p></div>
+</section>
+
+<section id="tools">
+<h2>3. Legitimate software and practice systems</h2>
+<p>SAP software is commercially licensed. Many “free SAP download” sites and torrent bundles offer cracked or leaked installers. Do not use them: they violate SAP’s license terms, often contain malware, and a pirated system on a CV or in a work context can damage your career. Everything below is an official or officially sanctioned route.</p>
+
+<div class="ok"><p><strong>Fastest legitimate start for most learners:</strong> create a free account at <a href="https://learning.sap.com">learning.sap.com</a>, then use the free practice-system access inside selected learning journeys. Add a trial system from the table below when you want a full ERP to explore.</p></div>
+
+<h3>Practice systems and software</h3>
+<div class="tw"><table>
+<thead><tr><th>Option</th><th>Cost</th><th>What you get</th><th>Link and notes</th></tr></thead>
+<tbody>
+<tr><td>SAP Learning practice systems</td><td><span class="tag free">Free</span></td><td>Temporary access to selected SAP BTP services and hands-on exercises inside learning journeys.</td><td><a href="https://learning.sap.com">learning.sap.com</a>. In <a href="https://learning.sap.com/learning-journeys">Learning Journeys</a>, filter by “Practice System”.</td></tr>
+<tr><td>SAP S/4HANA Cloud trial (14-day)</td><td><span class="tag free">Free</span></td><td>Preconfigured demo system. SAP’s own documentation describes it as a 14-day test with no hosting costs.</td><td>Start from the SAP trial pages on <a href="https://www.sap.com">sap.com</a>. Terms change, so confirm on the page.</td></tr>
+<tr><td>SAP S/4HANA Fully-Activated Appliance (30-day trial)</td><td><span class="tag trial">Trial</span> licence free, hosting fees paid to your cloud provider</td><td>A full on-premise S/4HANA with SAP Best Practices content, full admin access, and a Windows remote desktop with SAP GUI. You get a personal system, not a shared one.</td><td>Deployed through <a href="https://cal.sap.com">SAP Cloud Appliance Library</a> into your own cloud account. Start-up takes roughly 1 to 2 hours. Set a budget alert and suspend or delete the instance when not in use. Community support: <a href="https://community.sap.com/topics/cloud-appliance-library">Cloud Appliance Library on SAP Community</a>.</td></tr>
+<tr><td>SAP BTP trial</td><td><span class="tag free">Free</span></td><td>90 days (a login is needed at least once every 30 days). Cloud Foundry, ABAP and Kyma environments, and 30+ trial services. Good for Fiori, ABAP Cloud and integration practice.</td><td><a href="https://www.sap.com/products/technology-platform/trial.html">SAP BTP trial</a>. Quick-start tutorial: <a href="https://developers.sap.com/tutorials/cp-trial-quick-onboarding.html">developers.sap.com</a>. Trial cockpit: <a href="https://cockpit.hanatrial.ondemand.com/trial/">cockpit.hanatrial.ondemand.com</a>.</td></tr>
+<tr><td>ABAP Cloud Developer Trial (Docker)</td><td><span class="tag free">Free</span> (education and demo use)</td><td>A free, downloadable ABAP platform for learning ABAP Cloud. Community-supported. The Docker page recommends about 32 GB RAM, and the bundled licence is short-lived, so plan to refresh it.</td><td><a href="https://hub.docker.com/r/sapse/abap-cloud-developer-trial">Docker Hub: sapse/abap-cloud-developer-trial</a>. Use the ABAP Development Tools in Eclipse as the editor.</td></tr>
+<tr><td>SAP Learning Hub</td><td><span class="tag paid">Paid</span> (free student edition exists)</td><td>Guided premium learning content and, in some editions, live-system access for exercises. SAP’s student offer includes live sessions and certification attempts.</td><td><a href="https://learninghub.sap.com">learninghub.sap.com</a>. Students: <a href="https://learning.sap.com/students">learning.sap.com/students</a>. Check current editions and prices before buying.</td></tr>
+<tr><td>University Alliances</td><td><span class="tag free">Free</span> via your institution</td><td>Academic access to SAP systems and curriculum, through a participating university.</td><td>Ask your faculty whether your institution is a member.</td></tr>
+<tr><td>SAP GUI</td><td>Included with SAP licence</td><td>The desktop client used for classic transactions (SE16N, ME21N and so on). Not a public download: it needs an S-user with download authorization.</td><td><a href="https://support.sap.com/en/my-support/software-downloads.html">SAP Support Portal: Software Downloads</a>. Learners without an S-user normally use the SAP GUI already installed on the trial system’s remote desktop, or work in a browser with Fiori and Web GUI.</td></tr>
+<tr><td>SAP Best Practices Explorer</td><td><span class="tag free">Free</span></td><td>Process descriptions, scope items and test scripts for S/4HANA. Excellent for understanding standard processes.</td><td><a href="https://rapid.sap.com/bp">rapid.sap.com/bp</a></td></tr>
+<tr><td>SAP Process Navigator</td><td><span class="tag free">Free</span> (account may be needed)</td><td>Visual maps of SAP business processes.</td><td><a href="https://me.sap.com/processnavigator">me.sap.com/processnavigator</a></td></tr>
+</tbody></table></div>
+
+<div class="warn"><p><strong>Cost control for cloud appliances.</strong> The SAP licence is free during the trial, but the virtual machine bills by the hour on your own cloud account. Set a budget alert before you deploy, suspend the system when you stop for the day, and delete it when you finish. Appliance and trial terms change, so read the quick-start guide on the current trial page before you begin.</p></div>
+
+<h3>Supporting tools (non-SAP)</h3>
+<div class="tw"><table>
+<thead><tr><th>Purpose</th><th>Tool</th><th>Cost</th></tr></thead>
+<tbody>
+<tr><td>Diagrams (landscapes, process flows)</td><td>draw.io (diagrams.net)</td><td><span class="tag free">Free</span></td></tr>
+<tr><td>Notes and screenshots for your portfolio</td><td>Any notes app plus a screenshot tool</td><td><span class="tag free">Free</span></td></tr>
+<tr><td>Spreadsheet for data practice</td><td>Excel or Google Sheets</td><td>Free tier available</td></tr>
+<tr><td>ABAP editor</td><td>Eclipse with ABAP Development Tools (ADT)</td><td><span class="tag free">Free</span></td></tr>
+<tr><td>Container runtime for the ABAP trial</td><td>Docker Desktop or Podman</td><td>Free for personal use (check Docker’s current terms)</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="erp">
+<h2>4. ERP fundamentals</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p>ERP (Enterprise Resource Planning) is commercial software that integrates the processes needed to run a business, such as finance, HR, procurement, sales and production, on a shared database. Before ERP, each department kept its own records. A sales clerk could promise stock that purchasing had already consumed, and finance learned about it at month-end. In an ERP, one transaction updates every affected area at once.</p>
+<p>Your slide’s ATM example is a good one: when you withdraw cash, the balance check and the debit happen against one live record, in real time, not in a nightly batch. ERP aims for the same behaviour across a company, which improves resource utilization and reduces waste (stock sitting idle, duplicated data entry, reconciliation work).</p>
+<h3>Key concepts</h3>
+<ul>
+<li><strong>Integration:</strong> one transaction, many consequences. A goods receipt updates inventory, the accounting ledger and the purchase order status.</li>
+<li><strong>Single source of truth:</strong> one customer record, one material record.</li>
+<li><strong>Real-time processing</strong> versus batch processing.</li>
+<li><strong>Standard software versus custom code:</strong> standard processes are configured, not programmed.</li>
+<li><strong>Business process areas:</strong> Procure-to-Pay, Order-to-Cash, Plan-to-Produce, Record-to-Report, Hire-to-Retire.</li>
+</ul>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning: Learning Journeys</a>. Start with the introductory S/4HANA and “business process” journeys; use the Level and Product filters.</li>
+<li><span class="tag free">Free</span> <a href="https://open.sap.com">openSAP</a>. SAP’s MOOC platform. Its home page now states it has moved to the SAP Learning site, so search courses on learning.sap.com if a link redirects.</li>
+<li><span class="tag free">Free</span> <a href="https://alison.com/course/an-introduction-to-sap-s-4hana">Alison: An Introduction to SAP S/4HANA</a>. Third-party beginner course. The course is free; a certificate may cost extra.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=what+is+ERP+explained+for+beginners">“What is ERP” search</a> and <a href="https://www.youtube.com/results?search_query=SAP+ERP+overview+business+processes">“SAP business processes overview” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: ERP before and after</h4>
+<ol>
+<li>Choose a small business (a bakery, a clinic, a bike shop).</li>
+<li>List the five spreadsheets or tools it would use without ERP.</li>
+<li>Draw one sale: what must change in inventory, cash, and tax records?</li>
+<li>Mark every place data would be re-typed or could go out of sync.</li>
+</ol>
+<p><strong>Deliverable:</strong> a one-page diagram (draw.io) with at least five integration points.</p></div>
+<h3>Interview questions</h3>
+<p>What is ERP and why do companies buy it? How is ERP different from a standalone accounting package? What does “real time” mean in an ERP? (Answers in section 20.)</p>
+</div>
+</section>
+
+<section id="sap">
+<h2>5. SAP: history, versions, architecture</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p>SAP was founded in 1972 by five former IBM engineers and is headquartered in Walldorf, Germany. Its software evolved with computing itself: from mainframe systems to client/server to in-memory databases to the cloud. Knowing this evolution lets you place any system you meet at work (many companies still run several generations at once).</p>
+<h3>Version timeline</h3>
+<div class="tw"><table>
+<thead><tr><th>Generation</th><th>Era</th><th>What to remember</th></tr></thead>
+<tbody>
+<tr><td>R/1</td><td>1970s</td><td>First real-time accounting system. Taught as a single-tier design: presentation, application and database together.</td></tr>
+<tr><td>R/2</td><td>Late 1970s</td><td>Mainframe version. Taught as two-tier: presentation separate, application and database together.</td></tr>
+<tr><td>R/3</td><td>1992</td><td>Client/server. Three tiers: presentation, application, database on separate systems. This design dominated for decades.</td></tr>
+<tr><td>ECC (ERP Central Component)</td><td>2000s</td><td>The mature R/3 successor, widely installed. ECC 6.0 is the usual reference. SAP has announced end dates for standard maintenance, so check SAP’s current statement for the exact year.</td></tr>
+<tr><td>S/4HANA</td><td>2015 onward</td><td>Built for the SAP HANA in-memory database. Simplified data model, Fiori user interface. Available as on-premise, private cloud and public cloud editions.</td></tr>
+</tbody></table></div>
+<h3>Three-tier architecture</h3>
+<ul>
+<li><strong>Presentation layer:</strong> what the user sees (SAP GUI, browser with Fiori).</li>
+<li><strong>Application layer:</strong> the application servers that run business logic and ABAP programs.</li>
+<li><strong>Database layer:</strong> where all data is stored (SAP HANA in modern systems).</li>
+</ul>
+<p>Separating the tiers lets a company add application servers to handle more users without touching the database, and lets the database be tuned independently.</p>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://help.sap.com">SAP Help Portal</a>. Official product documentation; search “SAP S/4HANA” then “architecture”.</li>
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning</a>: look for ABAP Platform and S/4HANA fundamentals journeys.</li>
+<li><span class="tag free">Free</span> <a href="https://news.sap.com">SAP News Center</a> for company history and announcements.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+R%2F3+three+tier+architecture+explained">“SAP three-tier architecture” search</a> and <a href="https://www.youtube.com/results?search_query=SAP+ECC+vs+S%2F4HANA+differences">“ECC vs S/4HANA” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: three diagrams and a table</h4>
+<ol>
+<li>Draw R/1, R/2 and R/3 as boxes showing which layers share a server.</li>
+<li>For each, write one advantage and one limitation (scaling, cost, maintenance).</li>
+<li>Build a table comparing ECC and S/4HANA: database, user interface, data model, deployment options.</li>
+</ol>
+<p><strong>Deliverable:</strong> a two-page PDF you could use to explain this to a colleague.</p></div>
+<h3>Interview questions</h3>
+<p>Explain three-tier architecture. Why did SAP move from R/2 to R/3? What are the main differences between ECC and S/4HANA?</p>
+</div>
+</section>
+
+<section id="landscape">
+<h2>6. System landscape and transports</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p>As your slides say, SAP is divided into three landscapes: <strong>Development</strong> (where all configuration and customizing is done), <strong>Quality</strong> (testing and user training) and <strong>Production</strong> (the live server). Changes are made once in Development and then moved forward, so that nothing untested ever reaches live business data.</p>
+<h3>Key concepts</h3>
+<ul>
+<li><strong>Client:</strong> a self-contained business unit inside a system, with its own master data and users. A system can host several clients.</li>
+<li><strong>Transport request:</strong> the package that carries a change from one system to the next. <em>Workbench</em> requests carry development objects; <em>Customizing</em> requests carry configuration.</li>
+<li><strong>Transport route:</strong> DEV → QAS → PRD, controlled by the Change and Transport System.</li>
+<li><strong>Sandbox:</strong> an optional system for experiments that should never be transported.</li>
+<li><strong>Cutover:</strong> the planned move to production at go-live.</li>
+</ul>
+<div class="tw"><table>
+<thead><tr><th>Transaction</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><span class="tc">SE09</span> / <span class="tc">SE10</span></td><td>Transport Organizer: view and manage your requests.</td></tr>
+<tr><td><span class="tc">STMS</span></td><td>Transport Management System: import queues and routes.</td></tr>
+<tr><td><span class="tc">SCC4</span></td><td>Client settings.</td></tr>
+<tr><td><span class="tc">SPRO</span></td><td>Customizing: the configuration tree (the “IMG”).</td></tr>
+</tbody></table></div>
+<div class="note"><p>Transaction codes can differ between ECC and S/4HANA, and many tasks now have a Fiori app as well. Confirm a code in your own release before relying on it.</p></div>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://help.sap.com">SAP Help Portal</a>: search “Change and Transport System”.</li>
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com">SAP Learning</a>: the ABAP Platform fundamentals material includes the application lifecycle and transport overview.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+landscape+DEV+QAS+PRD+transport+request+explained">“SAP landscape and transports” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: follow a change through the landscape</h4>
+<ol>
+<li>Scenario: finance asks for a new payment term “net 45 days”.</li>
+<li>Write the path: who requests, who configures in DEV, which request type, what testing happens in QAS, who approves import to PRD.</li>
+<li>If you have a trial system, open <span class="tc">SPRO</span> and locate where payment terms are maintained, then note which request type it would create.</li>
+</ol>
+<p><strong>Deliverable:</strong> a swim-lane diagram with testing checkpoints and sign-offs.</p></div>
+<h3>Interview questions</h3>
+<p>Why three systems and not one? What is a transport request? What happens if someone configures directly in production?</p>
+</div>
+</section>
+
+<section id="products">
+<h2>7. SAP product portfolio</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p>Your slide lists S/4HANA, CRM, PLM, SCM and SRM, the classic “business suite” view. SAP’s portfolio has since shifted to cloud solutions that cover the same needs. Interviewers expect you to know both the classic names (still found in many companies) and the modern ones.</p>
+<div class="tw"><table>
+<thead><tr><th>Business need</th><th>Classic name (slides)</th><th>Modern product family</th></tr></thead>
+<tbody>
+<tr><td>Core ERP</td><td>SAP ECC</td><td>SAP S/4HANA (on-premise, private cloud, public cloud)</td></tr>
+<tr><td>Customer relationships</td><td>SAP CRM</td><td>SAP Customer Experience solutions (check current names on sap.com)</td></tr>
+<tr><td>Product lifecycle</td><td>SAP PLM</td><td>Product lifecycle capabilities within the SAP portfolio</td></tr>
+<tr><td>Supply chain</td><td>SAP SCM</td><td>SAP Integrated Business Planning and related supply chain solutions</td></tr>
+<tr><td>Supplier relationships</td><td>SAP SRM</td><td>SAP Ariba</td></tr>
+<tr><td>HR and talent</td><td>SAP HCM</td><td>SAP SuccessFactors</td></tr>
+<tr><td>Travel and expense</td><td>(n/a)</td><td>SAP Concur</td></tr>
+<tr><td>Analytics and planning</td><td>SAP BW / BO</td><td>SAP Analytics Cloud, SAP Datasphere</td></tr>
+<tr><td>Extensions and integration</td><td>NetWeaver, PI/PO</td><td>SAP Business Technology Platform (BTP)</td></tr>
+</tbody></table></div>
+<div class="warn"><p>Product names change frequently. The “modern” column above is the family to look up, not a guarantee of the exact current brand name. Verify on <a href="https://www.sap.com">sap.com</a> before quoting a name in a CV or interview.</p></div>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning Journeys</a>: use the “Product” filter to see what exists for each solution.</li>
+<li><span class="tag free">Free</span> <a href="https://www.sap.com/products/technology-platform/trial.html">SAP BTP trial</a> and the SAP Discovery Center it links to.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/@SAP">SAP channel</a>, and <a href="https://www.youtube.com/results?search_query=SAP+product+portfolio+overview+S%2F4HANA+Ariba+SuccessFactors">“SAP portfolio overview” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: map problems to products</h4>
+<p>For each problem, name the SAP solution family and justify in two sentences: (1) a retailer needs supplier onboarding and sourcing events; (2) a manufacturer needs demand forecasting; (3) a bank wants consolidated planning dashboards; (4) a company needs to build a custom app that reads S/4HANA data without modifying core code.</p></div>
+<h3>Interview questions</h3>
+<p>What is the difference between S/4HANA and SAP ECC? What does SAP BTP do? Which SAP product would you use for supplier collaboration?</p>
+</div>
+</section>
+
+<section id="projects">
+<h2>8. Projects, methodology, roles</h2>
+<div class="topic">
+<h3>Summary: project types</h3>
+<div class="tw"><table>
+<thead><tr><th>Type</th><th>What happens</th><th>Typical trigger</th></tr></thead>
+<tbody>
+<tr><td>Implementation (Greenfield)</td><td>A brand-new SAP system built from scratch, with processes redesigned.</td><td>New company, or a decision to leave a legacy system behind.</td></tr>
+<tr><td>Conversion (Brownfield)</td><td>An existing system (for example ECC) is converted to S/4HANA, keeping history and customizations.</td><td>ECC end of maintenance, wanting S/4HANA with minimal disruption.</td></tr>
+<tr><td>Bluefield (selective data transition)</td><td>A middle path: selected data, processes and organizational units move, others are left or re-designed.</td><td>Merge or carve-out, or keep some history but clean up others.</td></tr>
+<tr><td>Roll-out</td><td>An existing SAP template is deployed to a new country, plant or business unit.</td><td>Expansion or acquisition.</td></tr>
+<tr><td>Support</td><td>Run and maintain a live system: incidents, change requests, small enhancements.</td><td>After go-live; often a long-term engagement.</td></tr>
+</tbody></table></div>
+<h3>SAP Activate methodology</h3>
+<p>SAP Activate is SAP’s implementation framework, with six phases: <strong>Discover</strong> (understand options and define high-level scope), <strong>Prepare</strong> (finalize plan, set up environment, align the team), <strong>Explore</strong> (fit-to-standard workshops and solution design), <strong>Realize</strong> (configure, build, test), <strong>Deploy</strong> (cut over to production) and <strong>Run</strong> (operate and optimize). Activate comes with a Roadmap Viewer that lists deliverables and tasks per phase.</p>
+<h3>Roles</h3>
+<div class="tw"><table>
+<thead><tr><th>Role</th><th>What they do</th><th>Typical skills</th></tr></thead>
+<tbody>
+<tr><td>End user</td><td>Runs daily transactions (posts invoices, creates orders).</td><td>Process knowledge, accuracy.</td></tr>
+<tr><td>Super / power user (key user)</td><td>First-line help, tests changes, represents their department in projects.</td><td>Deep process knowledge, basic configuration awareness.</td></tr>
+<tr><td>Support consultant</td><td>Resolves tickets, analyses errors, makes small configuration changes.</td><td>Troubleshooting, ticketing tools, strong module knowledge.</td></tr>
+<tr><td>Implementation consultant</td><td>Leads workshops, designs and configures solutions, supports testing and go-live.</td><td>Configuration, documentation, communication, project work.</td></tr>
+</tbody></table></div>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://www.sap.com/products/erp/activate-methodology.html">SAP Activate overview</a> (phases, Roadmap Viewer, SAP Cloud ALM).</li>
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/courses/cloud-onboarding-for-sap-cloud-erp/planning-your-implementation-with-sap-activate_fcf2e4b6-d886-479e-abe5-a0e6bfadba90">SAP Learning: Planning Your Implementation with SAP Activate</a>.</li>
+<li><span class="tag free">Free</span> <a href="https://rapid.sap.com/bp">SAP Best Practices Explorer</a> for the process content Activate projects start from.</li>
+<li><span class="tag paid">Paid</span> <a href="https://www.sap-press.com/sap-activate_5463/toc/4245">SAP Activate (SAP PRESS book): table of contents</a>.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+Activate+methodology+phases+explained">“SAP Activate” search</a>, <a href="https://www.youtube.com/results?search_query=SAP+greenfield+brownfield+bluefield+explained">“Greenfield vs Brownfield vs Bluefield” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: recommend a project type</h4>
+<p>For each case give a project type and a three-sentence defence: (1) a 20-year-old ECC system with heavy custom code, wanting minimal change; (2) a start-up with no ERP; (3) a group buying a company and wanting only its finance data in the group system; (4) a company opening a plant in a new country with an existing global template; (5) a go-live last month.</p>
+<p><strong>Then:</strong> pick one case and sketch what you would do in each of the six Activate phases.</p></div>
+<h3>Interview questions</h3>
+<p>Explain Greenfield vs Brownfield. What are the SAP Activate phases? What does a support consultant do day to day? Walk me through how you handled a ticket.</p>
+</div>
+</section>
+
+<section id="data">
+<h2>9. Data in SAP and navigation</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p><strong>Master data</strong> is the long-lived reference data that business activity is built on: materials, vendors, customers, bank details, cost centres. <strong>Transactional data</strong> is what users create when they do business with that master data: purchase orders, goods receipts, invoices, sales orders. Master data changes rarely; transactional data is created constantly. Errors in master data multiply into every transaction that uses it, which is why data governance is a real project workstream.</p>
+<div class="tw"><table>
+<thead><tr><th></th><th>Master data</th><th>Transactional data</th></tr></thead>
+<tbody>
+<tr><td>Examples</td><td>Material, vendor / business partner, customer, GL account</td><td>Purchase order, goods receipt, invoice, sales order, delivery</td></tr>
+<tr><td>Change frequency</td><td>Low</td><td>High</td></tr>
+<tr><td>Created by</td><td>Data owners, master data team</td><td>End users in daily work</td></tr>
+<tr><td>Risk if wrong</td><td>Errors repeat in every transaction</td><td>Single-document errors, correctable by reversal</td></tr>
+</tbody></table></div>
+<h3>Navigation basics</h3>
+<ul>
+<li><strong>SAP Easy Access menu</strong> and the command field, where you type a transaction code (add <span class="tc">/n</span> to switch, <span class="tc">/o</span> to open a new session).</li>
+<li><strong>Fiori launchpad:</strong> tile-based browser interface used in S/4HANA.</li>
+<li><strong>Display tools:</strong> <span class="tc">SE16N</span> (table display, restricted in many systems), <span class="tc">SE11</span> (data dictionary).</li>
+<li><strong>User defaults and parameters:</strong> <span class="tc">SU3</span>.</li>
+</ul>
+<div class="note"><p>In S/4HANA, vendors and customers are maintained as <strong>Business Partners</strong> (transaction <span class="tc">BP</span>), replacing the old separate vendor and customer master transactions. The old codes may still appear in documentation and older training videos.</p></div>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning</a>: navigation and “getting started with SAP S/4HANA” content (search the catalogue for “navigation”).</li>
+<li><span class="tag free">Free</span> <a href="https://help.sap.com">SAP Help Portal</a>: search “Business Partner” and “material master”.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+master+data+vs+transactional+data+explained">“master vs transactional data” search</a>, <a href="https://www.youtube.com/results?search_query=SAP+GUI+navigation+basics+for+beginners">“SAP navigation basics” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: master data tour (needs a trial system)</h4>
+<ol>
+<li>Log in. Open the display transaction for a material (<span class="tc">MM03</span> or the Fiori app for product master data) and walk the views: Basic data, Purchasing, MRP, Accounting.</li>
+<li>Display a business partner with a vendor role. Note company code data vs purchasing data.</li>
+<li>Pick one field (for example, valuation class or payment terms) and write: if this were wrong, which downstream transactions would be affected?</li>
+</ol>
+<p><strong>Deliverable:</strong> a one-page “master data cheat sheet” with screenshots.</p></div>
+<h3>Interview questions</h3>
+<p>Give examples of master and transactional data. What is a material master and what views does it have? What changed for vendor master data in S/4HANA?</p>
+</div>
+</section>
+
+<section id="mm">
+<h2>10. SAP MM in depth</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p>SAP MM (Materials Management) is part of SAP’s logistics functions. It handles procurement, inventory management and the valuation of materials, and it is the backbone that connects to SD (sales), PP (production) and FI (finance). It covers planning to control: deciding what to buy and when, buying it, receiving and storing it, and paying for it, with every step recorded in finance automatically. Your slides list its features: procurement process, master data, account determination and material valuation, inventory management, invoice verification and MRP.</p>
+
+<h3>Enterprise structure (organizational levels)</h3>
+<div class="tw"><table>
+<thead><tr><th>Level</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Client</td><td>Highest level; a self-contained unit in the system.</td></tr>
+<tr><td>Company code</td><td>Independent legal entity with its own books.</td></tr>
+<tr><td>Plant</td><td>Location where materials are produced, procured or stored.</td></tr>
+<tr><td>Storage location</td><td>Place within a plant where stock is kept.</td></tr>
+<tr><td>Purchasing organization</td><td>Negotiates conditions with vendors.</td></tr>
+<tr><td>Purchasing group</td><td>The buyer or buyer team.</td></tr>
+</tbody></table></div>
+
+<h3>Master data</h3>
+<ul>
+<li><strong>Material master:</strong> organized in views (basic data, purchasing, MRP, storage, accounting). The <em>material type</em> (for example raw material, finished product, trading goods, service) controls which views exist and how stock is valued.</li>
+<li><strong>Vendor / business partner:</strong> general, company code and purchasing data.</li>
+<li><strong>Purchasing info record:</strong> links a vendor to a material with price and delivery terms.</li>
+<li><strong>Source list and quota arrangement:</strong> control which vendors may supply a material and in what proportion.</li>
+</ul>
+
+<h3>The procurement cycle</h3>
+<ol>
+<li><strong>Requirement determination:</strong> manually or from MRP.</li>
+<li><strong>Purchase requisition (PR):</strong> an internal request to buy.</li>
+<li><strong>Source determination and RFQ:</strong> choose a vendor; request for quotation and quotation comparison where needed.</li>
+<li><strong>Purchase order (PO):</strong> the binding order to the vendor.</li>
+<li><strong>PO follow-up:</strong> confirmations, reminders.</li>
+<li><strong>Goods receipt (GR):</strong> stock increases and the accounting entry is posted.</li>
+<li><strong>Invoice verification:</strong> the vendor’s invoice is checked against PO and GR (the “three-way match”).</li>
+<li><strong>Payment:</strong> handled in finance (FI).</li>
+</ol>
+
+<h3>Inventory management and movement types</h3>
+<p>Every stock change is a <em>goods movement</em> identified by a three-digit <em>movement type</em>. Each movement creates a material document (what moved) and, if value changes, an accounting document (what it cost). Common examples:</p>
+<div class="tw"><table>
+<thead><tr><th>Movement type</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>101</td><td>Goods receipt for a purchase order (102 reverses it).</td></tr>
+<tr><td>122</td><td>Return to vendor.</td></tr>
+<tr><td>201</td><td>Goods issue to a cost centre.</td></tr>
+<tr><td>261</td><td>Goods issue to a production order.</td></tr>
+<tr><td>301</td><td>Plant-to-plant transfer.</td></tr>
+<tr><td>311</td><td>Transfer between storage locations in a plant.</td></tr>
+<tr><td>561</td><td>Initial stock entry (data migration).</td></tr>
+<tr><td>601</td><td>Goods issue for delivery (from SD).</td></tr>
+</tbody></table></div>
+
+<h3>Material valuation and account determination</h3>
+<ul>
+<li><strong>Price control:</strong> <em>Standard price (S)</em> values stock at a fixed price, with differences posted to a price-difference account. <em>Moving average price (V)</em> recalculates the price with each receipt.</li>
+<li><strong>Valuation class:</strong> a field on the material that, together with the movement type, decides which general-ledger accounts are posted.</li>
+<li><strong>Automatic account determination:</strong> configured in the transaction <span class="tc">OBYC</span>. Key transaction keys to know: <strong>BSX</strong> (stock account), <strong>WRX</strong> (goods receipt / invoice receipt clearing, the “GR/IR” account), <strong>GBB</strong> (offsetting entries for goods issues and adjustments) and <strong>PRD</strong> (price differences).</li>
+</ul>
+<p>The classic example: with a PO for 100 units at 10 each, the goods receipt debits stock (BSX) 1,000 and credits GR/IR (WRX) 1,000. When the invoice arrives, it debits GR/IR 1,000 and credits the vendor 1,000. The GR/IR account clears to zero when everything matches.</p>
+
+<h3>Invoice verification</h3>
+<p>The invoice is posted against the PO (Fiori app or <span class="tc">MIRO</span>). The system checks quantity and price tolerances. A mismatch blocks the invoice for review. Typical issues: invoice before goods receipt, price differences, partial deliveries, tax codes.</p>
+
+<h3>MRP (Material Requirements Planning)</h3>
+<p>MRP compares requirements (sales orders, forecasts, production needs) with available stock and open supply, then proposes planned orders or purchase requisitions. Key concepts: MRP type (for example MRP vs reorder-point planning), lot-sizing procedure, safety stock, planned delivery time, MRP controller, and the stock/requirements list (<span class="tc">MD04</span>). In S/4HANA, MRP runs are faster and a Fiori app set replaces much of the classic MRP transaction family.</p>
+
+<details><summary>Common MM transactions (verify in your release)</summary><div class="in">
+<div class="tw"><table>
+<thead><tr><th>Task</th><th>Classic code</th></tr></thead>
+<tbody>
+<tr><td>Create / change / display material</td><td><span class="tc">MM01</span> / <span class="tc">MM02</span> / <span class="tc">MM03</span></td></tr>
+<tr><td>Vendor / business partner</td><td><span class="tc">BP</span> (S/4HANA); <span class="tc">XK01</span>, <span class="tc">ME11</span> info record</td></tr>
+<tr><td>Purchase requisition</td><td><span class="tc">ME51N</span></td></tr>
+<tr><td>Request for quotation</td><td><span class="tc">ME41</span></td></tr>
+<tr><td>Purchase order</td><td><span class="tc">ME21N</span> (create), <span class="tc">ME22N</span>, <span class="tc">ME23N</span></td></tr>
+<tr><td>Goods movement</td><td><span class="tc">MIGO</span></td></tr>
+<tr><td>Invoice verification</td><td><span class="tc">MIRO</span></td></tr>
+<tr><td>Stock overview</td><td><span class="tc">MMBE</span></td></tr>
+<tr><td>Material document list</td><td><span class="tc">MB51</span></td></tr>
+<tr><td>MRP run / stock requirements</td><td><span class="tc">MD01N</span> / <span class="tc">MD04</span></td></tr>
+<tr><td>Account determination</td><td><span class="tc">OBYC</span>, simulation in <span class="tc">OMWB</span></td></tr>
+</tbody></table></div>
+<p>In S/4HANA some of these are superseded by Fiori apps (for example “Manage Purchase Orders”). The classic codes remain widely documented and still appear in interviews.</p>
+</div></details>
+
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning</a>: filter by Product “SAP S/4HANA” and look for the sourcing and procurement journey. This is the official preparation path for the certification.</li>
+<li><span class="tag free">Free</span> <a href="https://rapid.sap.com/bp">SAP Best Practices Explorer</a>: search “procure to pay” for scope items and test scripts you can follow step by step in a trial system.</li>
+<li><span class="tag free">Free</span> <a href="https://help.sap.com">SAP Help Portal</a>: search “Materials Management” in the S/4HANA documentation.</li>
+<li><span class="tag paid">Paid</span> <a href="https://www.sap-press.com/sap-s4hana-sourcing-and-procurement-certification-guide_5124/">SAP S/4HANA Sourcing and Procurement Certification Guide (SAP PRESS)</a>: follows the C_TS450 / C_TS452 exam structure with practice questions. Check which exam version it covers.</li>
+<li><span class="tag paid">Paid</span> <a href="https://www.udemy.com/course/sap-s4hana-cloud-private-edition-sourcing-and-procurement/">Udemy: simulated C_TS452 practice exam</a> (third party). Use for self-testing only. Avoid any “exam dump” that claims to be real exam questions; that breaks SAP’s certification rules.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+MM+procure+to+pay+S%2F4HANA+demo">“SAP MM procure-to-pay demo” search</a>, <a href="https://www.youtube.com/results?search_query=SAP+MM+OBYC+account+determination+explained">“OBYC account determination” search</a>, <a href="https://www.youtube.com/results?search_query=SAP+MRP+explained+S%2F4HANA">“SAP MRP explained” search</a>, <a href="https://www.youtube.com/results?search_query=SAP+movement+types+101+201+261+explained">“movement types” search</a>.</li>
+</ul>
+
+<div class="ex"><h4>Hands-on exercise A: complete procure-to-pay</h4>
+<p><strong>System:</strong> S/4HANA trial appliance or the SAP Best Practices test scripts.</p>
+<ol>
+<li>Display the material master of a purchased raw material. Record material type, valuation class and price control.</li>
+<li>Create a purchase requisition, convert it to a purchase order, and note the document numbers.</li>
+<li>Post the goods receipt (movement 101). Open the material document and the accounting document. Write down the debit and credit accounts.</li>
+<li>Post the vendor invoice against the PO. Confirm the GR/IR account clears.</li>
+<li>Check stock (<span class="tc">MMBE</span>) and the PO history.</li>
+</ol>
+<p><strong>Deliverable:</strong> a document with screenshots at each step and a short paragraph per posting explaining why those accounts were hit.</p></div>
+
+<div class="ex"><h4>Hands-on exercise B: break it on purpose</h4>
+<ol>
+<li>Post a goods receipt for 90 units against a PO for 100. Observe the PO status.</li>
+<li>Post an invoice for the full 100. What does the system do? Why?</li>
+<li>Reverse the goods receipt (movement 102). What changes in stock and finance?</li>
+<li>Run MRP for a material with a reorder level. Explain each planned order or requisition it proposes.</li>
+</ol>
+<p><strong>Deliverable:</strong> a one-page error log: what happened, why, how you fixed it. This is exactly what support consultants do.</p></div>
+
+<h3>Interview questions</h3>
+<p>Walk me through procure-to-pay. What is the GR/IR account? Standard vs moving average price? What is automatic account determination? What happens if an invoice arrives before the goods? What does MRP do? (Answers in section 20.)</p>
+</div>
+</section>
+
+<section id="fico">
+<h2>11. SAP FICO</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p>FICO combines <strong>FI</strong> (Financial Accounting, which produces the legal books for external reporting) and <strong>CO</strong> (Controlling, which analyses costs and profitability for internal management). Every other module posts into finance, so FICO knowledge helps in any SAP career.</p>
+<h3>Key concepts</h3>
+<ul>
+<li><strong>Organizational units:</strong> company code, chart of accounts, controlling area, fiscal year variant, ledger.</li>
+<li><strong>FI components:</strong> General Ledger (GL), Accounts Payable (AP, vendors), Accounts Receivable (AR, customers), Asset Accounting (AA), bank accounting.</li>
+<li><strong>CO components:</strong> cost centre accounting, internal orders, profit centre accounting, product costing, profitability analysis.</li>
+<li><strong>S/4HANA Universal Journal:</strong> one line-item table for FI and CO postings, which removes the old reconciliation between the two.</li>
+<li><strong>Period-end:</strong> accruals, depreciation run, foreign-currency valuation, closing periods.</li>
+</ul>
+<div class="tw"><table>
+<thead><tr><th>Task</th><th>Classic code</th></tr></thead>
+<tbody>
+<tr><td>GL account posting</td><td><span class="tc">FB50</span></td></tr>
+<tr><td>Vendor invoice / customer invoice</td><td><span class="tc">FB60</span> / <span class="tc">FB70</span></td></tr>
+<tr><td>Payment run</td><td><span class="tc">F110</span></td></tr>
+<tr><td>GL master data</td><td><span class="tc">FS00</span></td></tr>
+<tr><td>Cost centre master</td><td><span class="tc">KS01</span></td></tr>
+<tr><td>Asset master</td><td><span class="tc">AS01</span></td></tr>
+</tbody></table></div>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning</a>: SAP’s finance learning journeys for S/4HANA (search “finance”). SAP’s own announcement notes that some use SAP S/4HANA Cloud, public edition as the training system and may require a Learning Hub subscription for system access.</li>
+<li><span class="tag free">Free</span> <a href="https://rapid.sap.com/bp">Best Practices Explorer</a>: scope items for “accounts payable”, “accounts receivable”, “asset accounting”.</li>
+<li><span class="tag free">Free</span> <a href="https://help.sap.com">SAP Help Portal</a>: S/4HANA finance documentation.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+FICO+tutorial+for+beginners+S%2F4HANA">“SAP FICO beginners” search</a>, <a href="https://www.youtube.com/results?search_query=SAP+universal+journal+ACDOCA+explained">“Universal Journal” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: follow the money from MM</h4>
+<ol>
+<li>Take the accounting document from your MM goods receipt and invoice. Identify GL accounts, company code and posting keys.</li>
+<li>Display the vendor line items in AP and confirm the open item after the invoice.</li>
+<li>Post a manual GL entry (for example, an accrual) and reverse it.</li>
+<li>Assign a cost centre in a goods issue (movement 201) and find the posting in CO.</li>
+</ol>
+<p><strong>Deliverable:</strong> a T-account diagram for the full procure-to-pay flow.</p></div>
+<h3>Interview questions</h3>
+<p>Difference between FI and CO? What is a chart of accounts? What is the Universal Journal? How does MM integrate with FI? What happens in a payment run?</p>
+</div>
+</section>
+
+<section id="sd">
+<h2>12. SAP SD</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p>SD (Sales and Distribution) handles the order-to-cash cycle: taking a customer order, checking availability, delivering, invoicing and receiving payment.</p>
+<h3>Key concepts</h3>
+<ul>
+<li><strong>Organizational units:</strong> sales organization, distribution channel, division, sales area, shipping point.</li>
+<li><strong>Document flow:</strong> inquiry → quotation → sales order → delivery → goods issue → billing → payment. Each document references the previous one.</li>
+<li><strong>Pricing (condition technique):</strong> prices, discounts, surcharges and taxes are conditions determined through a pricing procedure.</li>
+<li><strong>Availability check (ATP):</strong> confirms whether the order can be delivered on the requested date.</li>
+<li><strong>Output and partner determination:</strong> which documents are printed or sent, and which business partners (sold-to, ship-to, bill-to) apply.</li>
+<li><strong>Integration:</strong> goods issue (movement 601) reduces stock in MM and posts cost of goods sold to FI; billing posts revenue and the customer receivable.</li>
+</ul>
+<div class="tw"><table>
+<thead><tr><th>Task</th><th>Classic code</th></tr></thead>
+<tbody>
+<tr><td>Create sales order</td><td><span class="tc">VA01</span></td></tr>
+<tr><td>Outbound delivery</td><td><span class="tc">VL01N</span></td></tr>
+<tr><td>Billing</td><td><span class="tc">VF01</span></td></tr>
+<tr><td>Pricing conditions</td><td><span class="tc">VK11</span></td></tr>
+<tr><td>Document flow</td><td>Button inside any document</td></tr>
+</tbody></table></div>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning</a>: search “sales” for the S/4HANA Sales learning journeys.</li>
+<li><span class="tag free">Free</span> <a href="https://rapid.sap.com/bp">Best Practices Explorer</a>: “sell from stock” and related scope items.</li>
+<li><span class="tag paid">Paid</span> SAP PRESS publishes a Sales certification guide in the same series as the procurement guide linked in section 10 (search the <a href="https://www.sap-press.com">SAP PRESS site</a>).</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+SD+order+to+cash+demo+S%2F4HANA">“SAP SD order-to-cash demo” search</a>, <a href="https://www.youtube.com/results?search_query=SAP+SD+pricing+condition+technique+explained">“pricing condition technique” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: order-to-cash</h4>
+<ol>
+<li>Create a sales order for a finished product. Check pricing and availability.</li>
+<li>Create the delivery, pick, and post goods issue.</li>
+<li>Create the billing document. Open the accounting document and note revenue and receivable.</li>
+<li>Inspect the document flow and stock change.</li>
+</ol>
+<p><strong>Deliverable:</strong> an order-to-cash diagram that shows each document number and the MM and FI postings it triggered.</p></div>
+<h3>Interview questions</h3>
+<p>Explain the SD document flow. What is the condition technique? What is a sales area? Which postings happen at goods issue and at billing?</p>
+</div>
+</section>
+
+<section id="ppqm">
+<h2>13. SAP PP and QM</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p><strong>PP</strong> (Production Planning) plans and executes manufacturing: what to make, with which materials, on which machines, when. <strong>QM</strong> (Quality Management) controls quality: inspecting incoming goods, in-process output and finished goods.</p>
+<h3>Key concepts</h3>
+<ul>
+<li><strong>Bill of materials (BOM):</strong> the components needed to make a product.</li>
+<li><strong>Routing and work centre:</strong> the operations and the machines or teams that perform them.</li>
+<li><strong>Production order:</strong> the instruction to make a quantity of a product; involves goods issue of components (261) and goods receipt of the product.</li>
+<li><strong>MRP:</strong> drives planned orders for both purchased and manufactured items.</li>
+<li><strong>QM:</strong> inspection plan, inspection lot, results recording, usage decision, quality notification.</li>
+</ul>
+<div class="tw"><table>
+<thead><tr><th>Task</th><th>Classic code</th></tr></thead>
+<tbody>
+<tr><td>Bill of materials</td><td><span class="tc">CS01</span></td></tr>
+<tr><td>Routing</td><td><span class="tc">CA01</span></td></tr>
+<tr><td>Production order</td><td><span class="tc">CO01</span></td></tr>
+<tr><td>Stock / requirements list</td><td><span class="tc">MD04</span></td></tr>
+</tbody></table></div>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning</a>: search “manufacturing” and “quality”.</li>
+<li><span class="tag free">Free</span> <a href="https://rapid.sap.com/bp">Best Practices Explorer</a>: “make-to-stock production” and inspection-related scope items.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+PP+production+order+BOM+routing+demo">“SAP PP production order demo” search</a>, <a href="https://www.youtube.com/results?search_query=SAP+QM+inspection+lot+usage+decision+explained">“SAP QM inspection lot” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: make a product</h4>
+<ol>
+<li>Display a BOM and routing for a finished product.</li>
+<li>Create a production order, release it, issue components, confirm operations, and post the goods receipt.</li>
+<li>Compare the stock of components and finished product before and after. Find the cost postings.</li>
+</ol>
+<p><strong>Deliverable:</strong> a plan-to-produce diagram showing MM and FI/CO integration.</p></div>
+<h3>Interview questions</h3>
+<p>What are BOM and routing? Explain the production order lifecycle. How does PP integrate with MM and CO? What is a usage decision in QM?</p>
+</div>
+</section>
+
+<section id="abap">
+<h2>14. SAP ABAP</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p>ABAP (Advanced Business Application Programming) is SAP’s programming language. Functional consultants configure; ABAP developers build what configuration cannot: reports, interfaces, forms, enhancements and, increasingly, cloud-ready extensions.</p>
+<h3>Key concepts</h3>
+<ul>
+<li><strong>ABAP Dictionary:</strong> tables, data elements, domains, views.</li>
+<li><strong>Reports and ALV grids:</strong> classic report programming.</li>
+<li><strong>Object-oriented ABAP:</strong> classes, interfaces, exceptions.</li>
+<li><strong>Core Data Services (CDS):</strong> data models defined on the database.</li>
+<li><strong>ABAP RESTful Application Programming Model (RAP):</strong> the modern model for building Fiori apps and services.</li>
+<li><strong>Enhancements:</strong> BAdIs, user exits, enhancement spots. Modern guidance favours the “clean core” principle: extend without modifying SAP standard code.</li>
+<li><strong>ABAP Cloud:</strong> the restricted, upgrade-safe ABAP development model for S/4HANA Cloud and BTP.</li>
+</ul>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://developers.sap.com/tutorials/cp-trial-quick-onboarding.html">SAP Developer tutorials: getting started with the ABAP environment on BTP trial</a>.</li>
+<li><span class="tag free">Free</span> <a href="https://hub.docker.com/r/sapse/abap-cloud-developer-trial">ABAP Cloud Developer Trial (Docker)</a>, <a href="https://learning.sap.com/learning-journeys">SAP Learning ABAP journeys</a>.</li>
+<li><span class="tag free">Free</span> <a href="https://community.sap.com">SAP Community</a>: Q&amp;A and blogs for ABAP.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=ABAP+cloud+tutorial+for+beginners">“ABAP Cloud beginners” search</a>, <a href="https://www.youtube.com/results?search_query=ABAP+RAP+RESTful+application+programming+model+tutorial">“ABAP RAP tutorial” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: first ABAP programs</h4>
+<ol>
+<li>Install Eclipse with ABAP Development Tools and connect to your BTP ABAP trial or Docker trial.</li>
+<li>Write a class that prints “Hello SAP” to the console, using the interface for console output provided in the trial.</li>
+<li>Create a database table, insert five rows in code, then read and sort them in an internal table.</li>
+<li>Define a CDS view on your table and display it through a preview.</li>
+</ol>
+<p><strong>Deliverable:</strong> your code in a public Git repository with a README.</p></div>
+<h3>Interview questions</h3>
+<p>What is an internal table? What is the difference between classic ABAP and ABAP Cloud? What is a CDS view? What is a BAdI?</p>
+</div>
+</section>
+
+<section id="basis">
+<h2>15. SAP Basis</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p>Basis is SAP’s technical administration: installing, running, monitoring and securing the system landscape. Basis administrators keep the system up, move transports, manage users and authorizations, and tune performance.</p>
+<h3>Key concepts</h3>
+<ul>
+<li><strong>Users and authorizations:</strong> roles are built in <span class="tc">PFCG</span>; users are created in <span class="tc">SU01</span>.</li>
+<li><strong>Transports:</strong> <span class="tc">STMS</span> (see section 6).</li>
+<li><strong>Monitoring:</strong> work processes (<span class="tc">SM50</span>), system log (<span class="tc">SM21</span>), short dumps (<span class="tc">ST22</span>), background jobs (<span class="tc">SM36</span> / <span class="tc">SM37</span>).</li>
+<li><strong>Connectivity:</strong> RFC destinations (<span class="tc">SM59</span>).</li>
+<li><strong>Database and kernel:</strong> HANA administration, patches and upgrades.</li>
+<li><strong>Lifecycle tools:</strong> SAP Solution Manager and SAP Cloud ALM.</li>
+</ul>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning</a>: ABAP Platform administration and SAP HANA administration journeys.</li>
+<li><span class="tag free">Free</span> <a href="https://help.sap.com">SAP Help Portal</a>: SAP NetWeaver / ABAP Platform administration guides.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+Basis+administration+tutorial+for+beginners">“SAP Basis beginners” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: admin tour (trial appliance has full admin access)</h4>
+<ol>
+<li>Create a user and assign a role. Log in as that user and prove you can (or cannot) open a transaction.</li>
+<li>Find the current work processes and system log.</li>
+<li>Schedule and review a background job.</li>
+<li>Locate a short dump (cause one deliberately in a test program).</li>
+</ol>
+<p><strong>Deliverable:</strong> a runbook: “How to create a user, assign a role and verify access.”</p></div>
+<h3>Interview questions</h3>
+<p>What does a Basis administrator do? What is a client copy? How do you troubleshoot a transport that fails? How are roles and authorizations structured?</p>
+</div>
+</section>
+
+<section id="fiori">
+<h2>16. Fiori, S/4HANA and BTP</h2>
+<div class="topic">
+<h3>Summary</h3>
+<p><strong>SAP Fiori</strong> is the browser-based user experience used in S/4HANA, built around role-based tiles on a launchpad. <strong>S/4HANA</strong> brings a simplified data model, in-memory processing on SAP HANA and embedded analytics. <strong>SAP BTP</strong> is the platform for extensions, integration, data and AI, designed to keep the ERP core clean.</p>
+<h3>What changed for MM and the other modules</h3>
+<ul>
+<li>Vendor and customer master maintained as Business Partner.</li>
+<li>Material documents in a single table; stock data simplified.</li>
+<li>Universal Journal for finance.</li>
+<li>Fiori apps for most daily tasks; many classic transactions still available for experts.</li>
+<li>Material numbers can be longer than before.</li>
+</ul>
+<h3>Resources</h3>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com/learning-journeys">SAP Learning</a>: SAP Fiori, SAP S/4HANA and SAP BTP learning journeys.</li>
+<li><span class="tag free">Free</span> <a href="https://developers.sap.com">SAP Developers</a>: tutorials and missions.</li>
+<li><span class="tag free">Free</span> <a href="https://www.sap.com/products/technology-platform/trial.html">SAP BTP trial</a>: 90 days, 30+ services.</li>
+<li><span class="tag free">YouTube</span> <a href="https://www.youtube.com/results?search_query=SAP+Fiori+launchpad+tutorial">“Fiori launchpad” search</a>, <a href="https://www.youtube.com/results?search_query=SAP+BTP+what+is+business+technology+platform">“What is SAP BTP” search</a>.</li>
+</ul>
+<div class="ex"><h4>Hands-on exercise: same task, two interfaces</h4>
+<ol>
+<li>Create a purchase order in the classic transaction and again in the Fiori app. Compare steps.</li>
+<li>Write a table of three advantages and three limitations of each.</li>
+<li>In your BTP trial, follow one tutorial from developers.sap.com and write down which service you used and why.</li>
+</ol></div>
+<h3>Interview questions</h3>
+<p>What is the clean core principle? What is the role of SAP BTP? Name three S/4HANA simplifications.</p>
+</div>
+</section>
+
+<section id="e2e">
+<h2>17. End-to-end integration scenarios</h2>
+<p>Modules matter most in how they connect. These two flows appear in nearly every interview and project.</p>
+<h3>Procure-to-pay (MM, FI, CO)</h3>
+<div class="tw"><table>
+<thead><tr><th>Step</th><th>Module</th><th>Document created</th><th>Financial effect</th></tr></thead>
+<tbody>
+<tr><td>Purchase requisition</td><td>MM</td><td>PR</td><td>None</td></tr>
+<tr><td>Purchase order</td><td>MM</td><td>PO</td><td>None (commitment only)</td></tr>
+<tr><td>Goods receipt</td><td>MM / FI</td><td>Material doc + accounting doc</td><td>Debit stock, credit GR/IR</td></tr>
+<tr><td>Invoice receipt</td><td>MM / FI</td><td>Invoice doc + accounting doc</td><td>Debit GR/IR, credit vendor</td></tr>
+<tr><td>Payment</td><td>FI</td><td>Payment doc</td><td>Debit vendor, credit bank</td></tr>
+</tbody></table></div>
+<h3>Order-to-cash (SD, MM, FI)</h3>
+<div class="tw"><table>
+<thead><tr><th>Step</th><th>Module</th><th>Document created</th><th>Financial effect</th></tr></thead>
+<tbody>
+<tr><td>Sales order</td><td>SD</td><td>Sales order</td><td>None (may reserve stock)</td></tr>
+<tr><td>Delivery</td><td>SD</td><td>Outbound delivery</td><td>None</td></tr>
+<tr><td>Goods issue</td><td>SD / MM / FI</td><td>Material doc + accounting doc</td><td>Debit cost of goods sold, credit stock</td></tr>
+<tr><td>Billing</td><td>SD / FI</td><td>Billing doc + accounting doc</td><td>Debit customer, credit revenue</td></tr>
+<tr><td>Payment received</td><td>FI</td><td>Incoming payment</td><td>Debit bank, credit customer</td></tr>
+</tbody></table></div>
+<p>If you can draw both tables from memory and explain each posting, you can handle most junior functional interviews.</p>
+</section>
+
+<section id="capstone">
+<h2>18. Capstone projects</h2>
+<p>Choose at least one. Publish it (blog, Git repository or PDF) so you have something to show.</p>
+<div class="topic">
+<h3>Capstone A: Procure-to-pay case study (functional)</h3>
+<ul>
+<li>Run the full cycle on a trial system with screenshots.</li>
+<li>Add three exception scenarios (partial delivery, price difference, return to vendor).</li>
+<li>Document the accounting for each, plus a one-page “lessons learned”.</li>
+<li><strong>Acceptance criteria:</strong> every document number traced, every posting explained, errors diagnosed.</li>
+</ul>
+<h3>Capstone B: Mini implementation plan (consulting)</h3>
+<ul>
+<li>Invent a mid-size manufacturer. Choose a project type and justify it.</li>
+<li>Produce a plan across the six SAP Activate phases with deliverables and risks.</li>
+<li>Define the landscape and a transport strategy.</li>
+<li><strong>Acceptance criteria:</strong> a 10-slide deck, a landscape diagram and a risk register.</li>
+</ul>
+<h3>Capstone C: Fiori and ABAP extension (technical)</h3>
+<ul>
+<li>On BTP trial, build a small RAP service over your own table with a Fiori preview.</li>
+<li>Add a validation rule and a unit test.</li>
+<li><strong>Acceptance criteria:</strong> a working service, source in a Git repository, README with screenshots.</li>
+</ul>
+</div>
+<h3>Assignment template (use for any module)</h3>
+<div class="tw"><table>
+<thead><tr><th>Part</th><th>What to write</th></tr></thead>
+<tbody>
+<tr><td>Objective</td><td>One sentence: what you proved you can do.</td></tr>
+<tr><td>System and version</td><td>Where you worked (trial appliance, BTP trial, release number).</td></tr>
+<tr><td>Steps with evidence</td><td>Numbered steps with a screenshot and document numbers.</td></tr>
+<tr><td>Explanation</td><td>Why the system behaved as it did (accounts, status changes, configuration).</td></tr>
+<tr><td>Problems and fixes</td><td>What went wrong and how you solved it.</td></tr>
+<tr><td>Interview talking points</td><td>Three sentences you could say aloud about this work.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="cert">
+<h2>19. Certification and career</h2>
+<h3>Certification</h3>
+<p>SAP certifications are proctored exams that validate role-based knowledge. For SAP MM, the usual choice is the <strong>SAP Certified Associate: SAP S/4HANA Sourcing and Procurement</strong>, exam code <span class="tc">C_TS452</span> (the code has a release suffix such as 2022 or 2410, so confirm the current version when you register). SAP says its certificates must be kept current through periodic assessments.</p>
+<ul class="res">
+<li><span class="tag free">Free</span> <a href="https://learning.sap.com">SAP Learning</a>: each certification page links the recommended learning journey, and the site handles exam scheduling.</li>
+<li><span class="tag paid">Paid</span> The exam itself, and the SAP PRESS certification guide linked in section 10.</li>
+<li><span class="tag free">Free</span> Students: <a href="https://learning.sap.com/students">learning.sap.com/students</a> mentions a student edition of Learning Hub with live sessions and exam attempts. Check the page for current terms.</li>
+</ul>
+<div class="warn"><p>Do not use “brain dumps” or leaked exam questions. They breach SAP’s certification agreement and can get a certificate revoked. Use official learning journeys, a real system, and honest practice tests.</p></div>
+<h3>Career steps</h3>
+<ol>
+<li>Pick a specialization and build one capstone.</li>
+<li>Publish your work and write short blog posts on SAP Community, which also builds a visible profile.</li>
+<li>Read real job descriptions and match your skills against them.</li>
+<li>Look for support, key-user or junior consultant roles. Many people enter through support projects.</li>
+<li>Add the certification, then keep learning: a second module or BTP.</li>
+</ol>
+</section>
+
+<section id="interview">
+<h2>20. Interview question bank</h2>
+<p>Open each question, answer it aloud first, then compare. Answers are intentionally short; expand them with examples from your own practice work.</p>
+
+<h3>Concepts and architecture</h3>
+<details><summary>What is ERP, and why do companies use it?</summary><div class="in"><p>ERP integrates core business processes (finance, procurement, sales, production, HR) on one shared database. Companies use it for a single source of truth, real-time information, less duplicate data entry and better control of resources.</p></div></details>
+<details><summary>What does SAP stand for, and what is SAP?</summary><div class="in"><p>Systems, Applications and Products in Data Processing. SAP is a German software company and the largest ERP vendor; the name also refers to its software.</p></div></details>
+<details><summary>Explain the difference between R/2, R/3 and S/4HANA.</summary><div class="in"><p>R/2 was the mainframe generation. R/3 introduced client/server with three tiers (presentation, application, database). S/4HANA is the current suite built on the SAP HANA in-memory database, with a simplified data model and Fiori user interface.</p></div></details>
+<details><summary>Explain three-tier architecture.</summary><div class="in"><p>Presentation (user interface), application (business logic on application servers) and database (data storage) run separately, so each can be scaled and maintained independently.</p></div></details>
+<details><summary>What is the SAP landscape and why do we need it?</summary><div class="in"><p>Development (configure), Quality (test and train) and Production (live). It prevents untested changes from reaching live data and gives a controlled path for changes using transport requests.</p></div></details>
+<details><summary>What is a transport request?</summary><div class="in"><p>A container that carries configuration or development changes from one system to the next through the transport route. Workbench requests carry development objects; Customizing requests carry configuration.</p></div></details>
+<details><summary>What is a client in SAP?</summary><div class="in"><p>A self-contained unit within a system with its own master data, user data and customizing (for cross-client settings, the exceptions apply across all clients).</p></div></details>
+
+<h3>Projects and roles</h3>
+<details><summary>Greenfield vs Brownfield vs Bluefield?</summary><div class="in"><p>Greenfield is a new implementation from scratch. Brownfield converts an existing system, keeping history and customizations. Bluefield is a selective approach, moving chosen data, processes or entities.</p></div></details>
+<details><summary>What are the phases of SAP Activate?</summary><div class="in"><p>Discover, Prepare, Explore, Realize, Deploy, Run.</p></div></details>
+<details><summary>What is a roll-out project?</summary><div class="in"><p>Deploying an existing SAP solution template to a new country, plant or business unit, with local adaptations.</p></div></details>
+<details><summary>What is the role of a key (super) user?</summary><div class="in"><p>A business-side expert who supports colleagues, tests changes, validates requirements and acts as the contact point between the business and the project or support team.</p></div></details>
+<details><summary>Describe how you would handle a support ticket.</summary><div class="in"><p>Reproduce the issue, check documents and master data, look at the logs or document flow, identify the root cause (data, configuration, authorization or program), fix it in DEV, test in QAS, transport to PRD, and document the resolution and any follow-up.</p></div></details>
+
+<h3>Data</h3>
+<details><summary>Master vs transactional data?</summary><div class="in"><p>Master data is long-lived reference data (materials, vendors, customers). Transactional data records business events using it (orders, receipts, invoices).</p></div></details>
+<details><summary>What changed for vendor and customer masters in S/4HANA?</summary><div class="in"><p>They are maintained through the Business Partner concept, which covers both roles in one record.</p></div></details>
+
+<h3>SAP MM</h3>
+<details><summary>Walk me through procure-to-pay.</summary><div class="in"><p>Requirement, purchase requisition, source determination or RFQ, purchase order, goods receipt, invoice verification, payment. The goods receipt updates stock and posts to finance; invoice verification clears the GR/IR account; payment is handled in FI.</p></div></details>
+<details><summary>What is the GR/IR account?</summary><div class="in"><p>A clearing account. The goods receipt credits it and the invoice receipt debits it. A balance means goods arrived without an invoice, or an invoice arrived without goods.</p></div></details>
+<details><summary>Standard price vs moving average price?</summary><div class="in"><p>Standard price keeps stock at a fixed value, with differences going to a price-difference account. Moving average recalculates the price with each receipt.</p></div></details>
+<details><summary>What is a material type, and what does it control?</summary><div class="in"><p>It classifies materials (raw material, finished product, trading goods, service and so on) and controls which views and valuation behaviour apply.</p></div></details>
+<details><summary>What is automatic account determination?</summary><div class="in"><p>Configuration that decides which GL accounts are posted for a goods movement, based on the valuation class, movement type and transaction key (for example BSX, WRX, GBB, PRD).</p></div></details>
+<details><summary>What is a three-way match?</summary><div class="in"><p>Comparing the purchase order, goods receipt and vendor invoice before payment, with tolerances for quantity and price.</p></div></details>
+<details><summary>What does MRP do?</summary><div class="in"><p>It calculates net requirements by comparing demand with stock and expected receipts, then proposes planned orders or purchase requisitions to cover shortages.</p></div></details>
+<details><summary>What happens if the invoice arrives before the goods receipt?</summary><div class="in"><p>It depends on the configuration (for example the GR-based invoice verification setting). With goods-receipt-based verification the invoice may be blocked or not allowed until the goods receipt exists.</p></div></details>
+<details><summary>Name some inventory movement types and what they mean.</summary><div class="in"><p>101 goods receipt for PO, 102 its reversal, 201 issue to cost centre, 261 issue to production order, 301 plant transfer, 311 storage-location transfer, 561 initial stock, 601 goods issue for delivery.</p></div></details>
+
+<h3>Other modules and integration</h3>
+<details><summary>How does MM integrate with FI?</summary><div class="in"><p>Every valuated goods movement and invoice posts accounting documents automatically, through account determination.</p></div></details>
+<details><summary>What accounting entries happen at goods issue and billing in SD?</summary><div class="in"><p>At goods issue: debit cost of goods sold, credit inventory. At billing: debit customer receivable, credit revenue (and tax).</p></div></details>
+<details><summary>What is the Universal Journal?</summary><div class="in"><p>In S/4HANA, a single line-item table that stores both financial and controlling data, which removes the need to reconcile FI and CO.</p></div></details>
+<details><summary>Difference between FI and CO?</summary><div class="in"><p>FI produces legal external reports; CO supports internal management reporting and cost analysis.</p></div></details>
+<details><summary>What do BOM and routing describe?</summary><div class="in"><p>BOM lists components; routing lists operations and work centres used to produce a product.</p></div></details>
+<details><summary>What is clean core?</summary><div class="in"><p>Keeping the ERP core free of modifications by extending through supported, upgrade-safe mechanisms such as ABAP Cloud and SAP BTP.</p></div></details>
+
+<h3>Behavioural prompts to prepare</h3>
+<ul>
+<li>Describe a time you traced a problem back to bad master data.</li>
+<li>Describe your practice-system project and what you learned from a mistake in it.</li>
+<li>How do you explain an SAP posting to a non-technical colleague?</li>
+<li>Why this module and why SAP?</li>
+</ul>
+<div class="note"><p><strong>Interview technique:</strong> answer using a short structure: define it, explain how it works, give an example from your practice system, and name one limitation or risk. That works for almost any SAP question.</p></div>
+</section>
+
+<section id="index">
+<h2>21. Master link index</h2>
+<p>All links below were confirmed through web research while preparing this guide. Sites change; if a link redirects, search for the title on <a href="https://learning.sap.com">learning.sap.com</a> or <a href="https://community.sap.com">community.sap.com</a>.</p>
+<div class="tw"><table>
+<thead><tr><th>Resource</th><th>Cost</th><th>Use for</th><th>Link</th></tr></thead>
+<tbody>
+<tr><td>SAP Learning</td><td><span class="tag free">Free</span></td><td>Learning journeys, practice systems, certification entry</td><td><a href="https://learning.sap.com">learning.sap.com</a></td></tr>
+<tr><td>SAP Learning Journeys catalogue</td><td><span class="tag free">Free</span></td><td>Role- and product-based paths</td><td><a href="https://learning.sap.com/learning-journeys">learning.sap.com/learning-journeys</a></td></tr>
+<tr><td>SAP Learning for students</td><td><span class="tag free">Free</span></td><td>Student edition information</td><td><a href="https://learning.sap.com/students">learning.sap.com/students</a></td></tr>
+<tr><td>openSAP</td><td><span class="tag free">Free</span></td><td>MOOCs, microlearning, podcasts (now on SAP Learning)</td><td><a href="https://open.sap.com">open.sap.com</a></td></tr>
+<tr><td>SAP Learning Hub</td><td><span class="tag paid">Paid</span></td><td>Premium learning content</td><td><a href="https://learninghub.sap.com">learninghub.sap.com</a></td></tr>
+<tr><td>SAP Community</td><td><span class="tag free">Free</span></td><td>Q&amp;A, blogs, career</td><td><a href="https://community.sap.com">community.sap.com</a></td></tr>
+<tr><td>SAP Help Portal</td><td><span class="tag free">Free</span></td><td>Official documentation</td><td><a href="https://help.sap.com">help.sap.com</a></td></tr>
+<tr><td>SAP Developers tutorials</td><td><span class="tag free">Free</span></td><td>BTP, ABAP, Fiori tutorials</td><td><a href="https://developers.sap.com/tutorials/cp-trial-quick-onboarding.html">developers.sap.com</a></td></tr>
+<tr><td>SAP Cloud Appliance Library</td><td><span class="tag trial">Trial</span></td><td>S/4HANA trial appliances (hosting fees apply)</td><td><a href="https://cal.sap.com">cal.sap.com</a></td></tr>
+<tr><td>Cloud Appliance Library community</td><td><span class="tag free">Free</span></td><td>Support for trial appliances</td><td><a href="https://community.sap.com/topics/cloud-appliance-library">community.sap.com/topics/cloud-appliance-library</a></td></tr>
+<tr><td>SAP BTP trial</td><td><span class="tag free">Free</span></td><td>90-day cloud practice</td><td><a href="https://www.sap.com/products/technology-platform/trial.html">sap.com BTP trial</a></td></tr>
+<tr><td>ABAP Cloud Developer Trial</td><td><span class="tag free">Free</span></td><td>Local ABAP practice</td><td><a href="https://hub.docker.com/r/sapse/abap-cloud-developer-trial">Docker Hub</a></td></tr>
+<tr><td>SAP Support Portal downloads</td><td>Licence needed</td><td>SAP GUI and software (S-user required)</td><td><a href="https://support.sap.com/en/my-support/software-downloads.html">support.sap.com</a></td></tr>
+<tr><td>SAP Best Practices Explorer</td><td><span class="tag free">Free</span></td><td>Process content and test scripts</td><td><a href="https://rapid.sap.com/bp">rapid.sap.com/bp</a></td></tr>
+<tr><td>SAP Process Navigator</td><td><span class="tag free">Free</span></td><td>Process maps</td><td><a href="https://me.sap.com/processnavigator">me.sap.com/processnavigator</a></td></tr>
+<tr><td>SAP Activate</td><td><span class="tag free">Free</span></td><td>Implementation methodology</td><td><a href="https://www.sap.com/products/erp/activate-methodology.html">sap.com Activate</a></td></tr>
+<tr><td>SAP News Center</td><td><span class="tag free">Free</span></td><td>Announcements</td><td><a href="https://news.sap.com">news.sap.com</a></td></tr>
+<tr><td>SAP on YouTube</td><td><span class="tag free">Free</span></td><td>Official videos</td><td><a href="https://www.youtube.com/@SAP">youtube.com/@SAP</a></td></tr>
+<tr><td>SAP PRESS: Sourcing and Procurement certification guide</td><td><span class="tag paid">Paid</span></td><td>Exam prep for C_TS450 / C_TS452</td><td><a href="https://www.sap-press.com/sap-s4hana-sourcing-and-procurement-certification-guide_5124/">sap-press.com</a></td></tr>
+<tr><td>SAP PRESS: SAP Activate</td><td><span class="tag paid">Paid</span></td><td>Methodology book</td><td><a href="https://www.sap-press.com/sap-activate_5463/toc/4245">sap-press.com</a></td></tr>
+<tr><td>Alison: Intro to SAP S/4HANA</td><td><span class="tag free">Free</span></td><td>Beginner course (third party)</td><td><a href="https://alison.com/course/an-introduction-to-sap-s-4hana">alison.com</a></td></tr>
+<tr><td>Udemy: C_TS452 simulated exam</td><td><span class="tag paid">Paid</span></td><td>Self-test (third party)</td><td><a href="https://www.udemy.com/course/sap-s4hana-cloud-private-edition-sourcing-and-procurement/">udemy.com</a></td></tr>
+</tbody></table></div>
+</section>
+
+<section id="verify">
+<h2>22. Verification notes</h2>
+<div class="tw"><table>
+<thead><tr><th>Check</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Every slide topic covered</td><td>Yes: ERP (4), SAP and history (5), landscapes (6), products (7), project types and roles (8), data (9), modules (10 to 15), MM role and features (10).</td></tr>
+<tr><td>Links</td><td>Sites and pages above were found through web research. Individual YouTube videos are not listed; search links are provided instead.</td></tr>
+<tr><td>Practice tools</td><td>Free, trial and paid options listed, with SAP-sanctioned access routes only.</td></tr>
+<tr><td>Exercises and interview prep</td><td>Each core topic has an exercise; section 20 has a Q&amp;A bank; section 18 has capstones.</td></tr>
+</tbody></table></div>
+<div class="warn"><p><strong>Things to re-check before relying on them:</strong></p>
+<ul>
+<li>Trial lengths, prices and hosting terms (they change; confirm on the current SAP page).</li>
+<li>Exam code suffixes and syllabus (confirm on SAP Learning).</li>
+<li>ECC maintenance end dates (confirm on SAP’s current statement).</li>
+<li>Transaction codes in your specific S/4HANA release; many have Fiori replacements.</li>
+<li>Whether openSAP content you want has moved fully into the SAP Learning site.</li>
+</ul></div>
+<p style="color:var(--muted);font-family:var(--sans);font-size:14px">Not legal or licensing advice. Use SAP software only under the terms of the licence, trial or subscription it was provided under.</p>
+</section>
+
+</main>
+</div>
+<button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle light or dark theme">Toggle theme</button>
+<script>
+(function(){
+  var b=document.getElementById('themeBtn'),r=document.documentElement;
+  b.addEventListener('click',function(){
+    var dark=r.getAttribute('data-theme')==='dark'||(r.getAttribute('data-theme')!=='light'&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+    r.setAttribute('data-theme',dark?'light':'dark');
+  });
+})();
+</script>
+</body>
+</html>
